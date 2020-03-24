@@ -11,26 +11,28 @@ class Student
   
   def self.create_table()
     sql = "CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY, name TEXT, grade INTEGER);"
-    
     DB[:conn].execute(sql)
   end
   
   def self.drop_table()
     sql = "DROP TABLE IF EXISTS students;"
-    
     DB[:conn].execute(sql)
   end
   
   def self.create(name, grade)
     new_student = Student.new(name, grade)
+    new_student.save()
   end
   
-  def self.new_from_db()
-    
+  def self.new_from_db(row)
+    new_student = Student.new(row[0], row[1], row[2])
+    return new_student
   end
   
   def self.find_by_name(name)
-    
+      sql = "SELECT * FROM students WHERE name = ?;"
+      found_student = Student.new_from_db(DB[:conn].execute(sql, name).first)
+      return found_student
   end
   
   def save()
@@ -44,7 +46,11 @@ class Student
   end
   
   def update()
+    if @id == nil
+      self.save
+    else
       sql = "UPDATE students SET name = ?, grade = ? WHERE id = ?;"
       DB[:conn].execute(sql, @name, @grade, @id)
+    end
   end
 end
