@@ -34,7 +34,7 @@ class Student
   end
   
   def save()
-    sql = "UPDATE TABLE students "
+    sql = "UPDATE students "
   end
   
   def update()
