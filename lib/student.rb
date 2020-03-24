@@ -22,7 +22,7 @@ class Student
   end
   
   def self.create(name, grade)
-    new_student = self.new(name, grade)
+    new_student = Student.new(name, grade)
   end
   
   def self.new_from_db()
@@ -34,10 +34,10 @@ class Student
   end
   
   def save()
-    if self.id == nil
+    if @id == nil
       sql = "INSERT INTO students (name, grade) VALUES (?,?);"
-      DB[:conn].execute(sql, self.name, self.grade)
-      self.id = 
+      DB[:conn].execute(sql, @name, @grade)
+      @id = DB[:conn].execute()
   end
   
   def update()
