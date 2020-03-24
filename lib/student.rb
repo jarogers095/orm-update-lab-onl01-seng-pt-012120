@@ -37,7 +37,7 @@ class Student
     if @id == nil
       sql = "INSERT INTO students (name, grade) VALUES (?,?);"
       DB[:conn].execute(sql, @name, @grade)
-      @id = DB[:conn].execute()
+      @id = DB[:conn].execute("SELECT last_insert_rowid() FROM students;")
   end
   
   def update()
